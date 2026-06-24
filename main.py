@@ -204,6 +204,31 @@ def obter_valor() -> Decimal:
         except ValueError as e:
             erro(str(e))
 
+def _exibir_indices_mensais(serie: list[dict], nome_indice: str) -> None:
+    """Exibe tabela com o índice mensal e fator acumulado de cada mês do período."""
+    cabecalho(f"Índices mensais — {nome_indice}")
+    print(f"  {Fore.CYAN}{'Mês/Ano':<12} {'Índice (%)':>12}  {'Acumulado (%)':>14}{Style.RESET_ALL}")
+    print(f"  {'─'*42}")
+
+    fator_acum = Decimal("1")
+    for ponto in serie:
+        try:
+            taxa = Decimal(str(ponto["valor"]))
+        except Exception:
+            continue
+        fator_acum *= (1 + taxa / 100)
+        acum_pct = (fator_acum - 1) * 100
+
+        # Colorir negativos em vermelho
+        cor = Fore.RED if taxa < 0 else Style.RESET_ALL
+        print(f"  {ponto['data']:<12}"
+              f" {cor}{float(taxa):>11.4f}%{Style.RESET_ALL}"
+              f"  {float(acum_pct):>13.4f}%")
+
+    print(f"  {'─'*42}")
+    print(f"  {'Total':>12} {' ':>12}  {float((fator_acum-1)*100):>13.4f}%")
+
+
 def executar_consulta() -> None:
     idx = selecionar_indice()
 
@@ -241,6 +266,11 @@ def executar_consulta() -> None:
     print(f"  {'Valor original':<{larg}} {fmt_brl(valor_original)}")
     print(f"  {'Acréscimo':<{larg}} {fmt_brl(acrescimo)}")
     print(f"  {Fore.GREEN}{'Valor corrigido':<{larg}} {fmt_brl(valor_corrigido)}{Style.RESET_ALL}")
+
+    print()
+    resp = entrada("Ver índices mensais do período? (S/N)", default="N").strip().upper()
+    if resp == "S":
+        _exibir_indices_mensais(serie, idx["nome"])
 
 # ---------------------------------------------------------------------------
 # Ponto de entrada
