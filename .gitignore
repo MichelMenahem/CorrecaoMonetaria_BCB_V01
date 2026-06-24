@@ -1,0 +1,16 @@
+# Ambiente virtual
+.venv/
+
+# PyInstaller
+build/
+dist/
+*.spec
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Sistema
+.DS_Store
+desktop.ini
+Thumbs.db
