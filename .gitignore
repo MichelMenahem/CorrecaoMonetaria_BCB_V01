@@ -10,6 +10,12 @@ dist/
 __pycache__/
 *.py[cod]
 
+# Credenciais de banco (nunca versionar)
+db_config.ini
+
+# Logs gerados pelo sync
+.logs/
+
 # Sistema
 .DS_Store
 desktop.ini

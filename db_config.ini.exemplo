@@ -1,0 +1,10 @@
+# Configuração de conexão com o PostgreSQL
+# Copie este arquivo para db_config.ini e preencha com as credenciais reais.
+# ATENÇÃO: db_config.ini está no .gitignore — nunca versione credenciais.
+
+[postgresql]
+host     = localhost
+port     = 5432
+dbname   = nome_do_banco
+user     = usuario
+password = senha
